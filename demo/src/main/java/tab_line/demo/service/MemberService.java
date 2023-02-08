@@ -3,9 +3,12 @@ package tab_line.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import tab_line.demo.domain.Member;
 import tab_line.demo.repository.MemberRepository;
 
+@Service
 public class MemberService {
     private final MemberRepository memberRepository;
 
