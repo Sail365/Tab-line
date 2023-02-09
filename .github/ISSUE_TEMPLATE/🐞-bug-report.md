@@ -1,0 +1,18 @@
+---
+name: "\U0001F41E Bug report"
+about: Bug 발생 시 작성해주세요.
+title: ''
+labels: "\U0001F41E bug"
+assignees: ''
+
+---
+
+## Description
+설명을 작성하세요.
+
+## To-do
+- [ ] todo
+- [ ] todo
+
+## ETC
+기타 사항을 작성하세요
