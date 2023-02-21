@@ -1,4 +1,4 @@
-import { databaseProviders } from './provider';
+import { databaseProviders } from './database.provider';
 import { Module } from '@nestjs/common/decorators';
 
 @Module({
