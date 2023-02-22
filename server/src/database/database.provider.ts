@@ -1,18 +1,10 @@
-import { DataSource } from 'typeorm';
+import * as mongoose from 'mongoose';
 
+mongoose.set('strictQuery', false);
 export const databaseProviders = [
   {
-    provide: 'DATA_SOURCE',
-    useFactory: async () => {
-      const dataSource = new DataSource({
-        type: 'mongodb',
-        host: 'MONGO_URL',
-        port: 27017,
-        database: 'server',
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: true,
-      });
-      return dataSource.initialize();
-    },
+    provide: 'DATABASE_CONNECTION',
+    useFactory: (): Promise<typeof mongoose> =>
+      mongoose.connect(process.env.MONGO_URL),
   },
 ];
