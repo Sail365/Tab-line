@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from 'src/schema/user.schema';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async findAll(): Promise<User[]> {
