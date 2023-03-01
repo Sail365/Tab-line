@@ -1,7 +1,11 @@
-import { UserService } from '../user/user.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { User } from './interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(
+    @Inject('USER_MODEL')
+    private userModel: Model<User>,
+  ) {}
 }
