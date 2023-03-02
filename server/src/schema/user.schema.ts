@@ -12,6 +12,7 @@ const options: SchemaOptions = {
 export class User {
   @Prop({ required: true })
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @Prop({ required: true, unique: true })
@@ -21,6 +22,7 @@ export class User {
 
   @Prop({ required: true })
   @IsString()
+  @IsNotEmpty()
   password: string;
 }
 
