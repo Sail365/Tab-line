@@ -1,4 +1,4 @@
-import { LoggerMiddleware } from './common/logger/logger.middleware';
+import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
