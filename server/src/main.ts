@@ -2,8 +2,8 @@ import { OpenAPIObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.int
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filter/http-exception.filter';
-import { SuccessInterceptor } from './common/interceptor/success.interceptor';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { SuccessInterceptor } from './common/interceptors/success.interceptor';
 import * as expressBasicAuth from 'express-basic-auth';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
