@@ -3,10 +3,13 @@ dotenv.config();
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Payload } from './jwt.payload';
+import { UsersRepository } from 'src/users/user.repository';
+import { UnauthorizedException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private readonly usersRepository: UsersRepository) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET,
@@ -14,7 +17,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
-    // return { id: payload.sub, email: payload.email };
+  async validate(payload: Payload) {
+    const user = await this.usersRepository.findUserByIdWithoutPassword(
+      payload.sub,
+    );
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    } else {
+      return user;
+    }
   }
 }

@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Request } from 'express';
+import { JwtAuthGuard } from './../auth/jwt/jwt.guard';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UsersRequestDto } from './dto/users.request.dto';
 import { ReadOnlyUserDto } from './dto/user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginRequstDto } from 'src/auth/dto/login.request.dto';
+import { UseGuards } from '@nestjs/common/decorators';
 
 @Controller('users')
 export class UsersController {
@@ -14,9 +17,11 @@ export class UsersController {
   ) {}
 
   @ApiOperation({ summary: 'Get user' })
+  @UseGuards(JwtAuthGuard)
   @Get()
-  async finduser() {
-    return await this.usersService.finduser();
+  async finduser(@Req() req: Request) {
+    return req.user;
+    // return await this.usersService.finduser();
   }
 
   @ApiOperation({ summary: 'Create user' })
