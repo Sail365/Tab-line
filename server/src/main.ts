@@ -1,4 +1,4 @@
-import { OpenAPIObject } from './../../node_modules/@nestjs/swagger/dist/interfaces/open-api-spec.interface.d';
+import { OpenAPIObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
