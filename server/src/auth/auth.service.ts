@@ -40,11 +40,11 @@ export class AuthService {
     };
   }
 
-  async googleLogin(data: User) {
-    const { email, name } = data;
-    const payload = { email, sub: name };
-    return {
-      toekn: this.jwtService.sign(payload),
-    };
-  }
+  // async googleLogin(data: User) {
+  //   const { email, name } = data;
+  //   const payload = { email, sub: name };
+  //   return {
+  //     toekn: this.jwtService.sign(payload),
+  //   };
+  // }
 }

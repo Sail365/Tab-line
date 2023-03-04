@@ -4,11 +4,24 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as expressBasicAuth from 'express-basic-auth';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as session from 'express-session';
+import * as passport from 'passport';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-
+  app.use(
+    session({
+      cookie: {
+        maxAge: 86400000,
+      },
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(
     ['/docs', '/docs/*'],
     expressBasicAuth({

@@ -7,7 +7,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, 'Google') {
+export class GoogleStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly usersService: UsersService) {
     super({
       clientID: process.env.OAUTH_GOOGLE_ID,
@@ -19,11 +19,17 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'Google') {
   }
 
   async validate(
+    request: any,
     accessToken: string,
     refreshToken: string,
     profile: Profile,
-    done: VerifyCallback,
   ): Promise<any> {
-    return done(null, profile);
+    const { name, emails } = profile;
+    console.log(name, emails);
+    // const user = await this.usersService.findOrCreate({
+    //   email: emails[0].value,
+    //   name: name.givenName,
+    // } as GoogleCreateDto);
+    // return user;
   }
 }
