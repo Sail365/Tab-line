@@ -2,16 +2,12 @@ import { OpenAPIObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.int
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { SuccessInterceptor } from './common/interceptors/success.interceptor';
 import * as expressBasicAuth from 'express-basic-auth';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new SuccessInterceptor());
-  app.useGlobalFilters(new HttpExceptionFilter());
 
   app.use(
     ['/docs', '/docs/*'],
