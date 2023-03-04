@@ -10,7 +10,7 @@ import { UseGuards } from '@nestjs/common/decorators';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/schemas/user.schema';
 
-@Controller('users')
+@Controller('api/users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,

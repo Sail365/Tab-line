@@ -3,6 +3,7 @@ import { UsersRepository } from 'src/users/user.repository';
 import { LoginRequstDto } from './dto/login.request.dto';
 import * as bcryipt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
