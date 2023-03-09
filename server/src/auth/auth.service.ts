@@ -16,6 +16,31 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  async validateUser(data: GoogleCreateDto): Promise<any> {
+    const { email, name } = data;
+    const user = await this.userRepository.findByEmail(email);
+    if (user) {
+      return user;
+    }
+    const newUser = new User();
+    newUser.email = email;
+    newUser.name = name;
+    return this.usersService.create(newUser);
+  }
+
+  // createUser(details: GoogleCreateDto) {
+  //   const { email, name } = details;
+  //   const user = new User();
+  //   user.email = email;
+  //   user.name = name;
+  //   return this.usersService.create(user);
+  // }
+
+  // async findUser(email: string) {
+  //   const user = await this.userRepository.findByEmail(email);
+  //   return user.readOnlyData;
+  // }
+
   async jwtLogIn(data: LoginRequstDto) {
     const { email, password } = data;
     const user = await this.userRepository.findByEmail(email);
@@ -40,23 +65,5 @@ export class AuthService {
     };
   }
 
-  async googleLogin() {
-    const oauth2Client = new google.auth.OAuth2(
-      process.env.OAUTH_GOOGLE_ID,
-      process.env.OAUTH_GOOGLE_SECRET,
-      process.env.OAUTH_GOOGLE_REDIRECT,
-    );
-
-    const scopes = [
-      'https://www.googleapis.com/auth/userinfo.profile',
-      'https://www.googleapis.com/auth/userinfo.email',
-    ];
-
-    const url = oauth2Client.generateAuthUrl({
-      access_type: 'offline',
-      scope: scopes,
-    });
-
-    return url;
-  }
+  async googleLogin() {}
 }
