@@ -7,9 +7,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Get('google')
-  @UseGuards(GoogleAuthGuard)
-  googleAuth(@Req() req) {
-    // initiates the Google OAuth2 login flow
+  async googleAuth() {
+    return await this.authService.googleLogin();
   }
 
   @Get('google/redirect')

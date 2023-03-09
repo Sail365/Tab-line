@@ -3,10 +3,10 @@ import { UsersRepository } from 'src/users/user.repository';
 import { LoginRequstDto } from './dto/login.request.dto';
 import * as bcryipt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { OAuth2Client } from 'google-auth-library';
 import { UsersService } from 'src/users/users.service';
 import { GoogleCreateDto } from './dto/google.create.dto';
 import { User } from 'src/schemas/user.schema';
+import { google } from 'googleapis';
 
 @Injectable()
 export class AuthService {
@@ -40,11 +40,23 @@ export class AuthService {
     };
   }
 
-  // async googleLogin(data: User) {
-  //   const { email, name } = data;
-  //   const payload = { email, sub: name };
-  //   return {
-  //     toekn: this.jwtService.sign(payload),
-  //   };
-  // }
+  async googleLogin() {
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.OAUTH_GOOGLE_ID,
+      process.env.OAUTH_GOOGLE_SECRET,
+      process.env.OAUTH_GOOGLE_REDIRECT,
+    );
+
+    const scopes = [
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/userinfo.email',
+    ];
+
+    const url = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: scopes,
+    });
+
+    return url;
+  }
 }
