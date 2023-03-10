@@ -22,10 +22,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     refreshToken: string,
     profile: Profile,
   ): Promise<any> {
-    const { name, emails: email } = profile;
+    const { name, emails: email, id } = profile;
     const details = new GoogleCreateDto();
     details.email = email[0].value;
     details.name = name.givenName;
+    details.id = id;
     return this.authService.validateUser(details);
   }
 }
