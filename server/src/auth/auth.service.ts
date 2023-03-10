@@ -19,7 +19,7 @@ export class AuthService {
     const { email } = data;
     const user = await this.findUser(email);
     if (user) {
-      return user.readOnlyData;
+      return user;
     }
     return this.createUser(data);
   }
@@ -35,7 +35,10 @@ export class AuthService {
 
   async findUser(email: string) {
     const user = await this.userRepository.findByEmail(email);
-    return user;
+    if (user) {
+      return user.readOnlyData;
+    }
+    return null;
   }
 
   async jwtLogIn(data: LoginRequstDto) {

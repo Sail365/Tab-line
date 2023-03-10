@@ -6,6 +6,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
 import { UsersModule } from 'src/users/users.module';
 import { GoogleStrategy } from './utils/google.strategy';
 import { AuthController } from './auth.controller';
+import { SessionSerializer } from './utils/serializer';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { AuthController } from './auth.controller';
     forwardRef(() => UsersModule),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, GoogleStrategy],
+  providers: [AuthService, JwtStrategy, GoogleStrategy, SessionSerializer],
   exports: [AuthService],
 })
 export class AuthModule {}

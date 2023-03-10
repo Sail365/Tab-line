@@ -16,6 +16,6 @@ export class AuthController {
   @Get('google/redirect')
   @UseGuards(GoogleAuthGuard)
   redirect(@Res() res: Response) {
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:8080');
   }
 }
