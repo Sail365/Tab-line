@@ -61,9 +61,14 @@ export class AuthService {
     const payload = { email: user.email, sub: user._id };
 
     return {
-      toekn: this.jwtService.sign(payload),
+      token: this.jwtService.sign(payload),
     };
   }
 
-  async googleLogin() {}
+  async makeToken(user: any) {
+    const payload = { email: user.email, sub: user.id };
+    return {
+      token: this.jwtService.sign(payload),
+    };
+  }
 }

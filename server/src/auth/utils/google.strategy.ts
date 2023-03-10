@@ -1,9 +1,10 @@
+import { LoginRequstDto } from './../dto/login.request.dto';
 import { GoogleCreateDto } from './../dto/google.create.dto';
 // import * as dotenv from 'dotenv';
 // dotenv.config();
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Session } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -27,6 +28,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     details.email = email[0].value;
     details.name = name.givenName;
     details.id = id;
-    return this.authService.validateUser(details);
+    console.log(id);
+    return await this.authService.validateUser(details);
   }
 }
