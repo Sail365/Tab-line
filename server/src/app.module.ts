@@ -1,4 +1,5 @@
-import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
+import { PassportModule } from '@nestjs/passport';
+import { LoggerMiddleware } from './common/middlewares/logger/logger.middleware';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,7 +12,8 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
+    PassportModule.register({ session: true }),
     MongooseModule.forRoot(process.env.MONGO_URI, {
       useNewUrlParser: true,
     }),

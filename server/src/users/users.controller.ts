@@ -1,12 +1,27 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { JwtAuthGuard } from './../auth/jwt/jwt.guard';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseFilters,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UsersRequestDto } from './dto/users.request.dto';
 import { ReadOnlyUserDto } from './dto/user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginRequstDto } from 'src/auth/dto/login.request.dto';
+import { UseGuards } from '@nestjs/common/decorators';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { User } from 'src/schemas/user.schema';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 
-@Controller('users')
+@UseInterceptors(SuccessInterceptor)
+@UseFilters(HttpExceptionFilter)
+@Controller('api/users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -14,9 +29,11 @@ export class UsersController {
   ) {}
 
   @ApiOperation({ summary: 'Get user' })
+  @UseGuards(JwtAuthGuard)
   @Get()
-  async finduser() {
-    return await this.usersService.finduser();
+  async finduser(@CurrentUser() user: User) {
+    return user.readOnlyData;
+    // return await this.usersService.finduser();
   }
 
   @ApiOperation({ summary: 'Create user' })

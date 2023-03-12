@@ -2,17 +2,26 @@ import { OpenAPIObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.int
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filter/http-exception.filter';
-import { SuccessInterceptor } from './common/interceptor/success.interceptor';
 import * as expressBasicAuth from 'express-basic-auth';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as session from 'express-session';
+import * as passport from 'passport';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new SuccessInterceptor());
-  app.useGlobalFilters(new HttpExceptionFilter());
-
+  app.use(
+    session({
+      cookie: {
+        maxAge: 86400000,
+      },
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(
     ['/docs', '/docs/*'],
     expressBasicAuth({
